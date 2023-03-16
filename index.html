@@ -108,6 +108,8 @@
             /*bg-indigo-500*/
         }
     </style>
+    <link rel="stylesheet" href="resources/jquery/jquery-ui/jquery-ui.css">
+    <link rel="stylesheet" href="resources/jquery/jquery-ui/jquery-ui.structure.css">
 
 </head>
 
@@ -122,47 +124,21 @@
         Responsive <a class="underline mx-2" href="https://datatables.net/">DataTables.net</a> Table
     </h1>
 
-
     <!--Card-->
     <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 
+        <ul id="sortable">
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
+            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
+        </ul>
 
         <table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
-            <thead>
-            <tr>
-                <th data-priority="1">Name</th>
-                <th data-priority="2">Position</th>
-                <th data-priority="3">Office</th>
-                <th data-priority="4">Age</th>
-                <th data-priority="5">Start date</th>
-                <th data-priority="6">Salary</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
-                <td>Tiger Nixon</td>
-                <td>System Architect</td>
-                <td>Edinburgh</td>
-                <td>61</td>
-                <td>2011/04/25</td>
-                <td>$320,800</td>
-            </tr>
-
-            <!-- Rest of your data (refer to https://datatables.net/examples/server_side/ for server side processing)-->
-
-            <tr>
-                <td>Donna Snider</td>
-                <td>Customer Support</td>
-                <td>New York</td>
-                <td>27</td>
-                <td>2011/01/25</td>
-                <td>$112,000</td>
-            </tr>
-            </tbody>
-
         </table>
-
-
     </div>
     <!--/Card-->
 
@@ -170,26 +146,51 @@
 </div>
 <!--/container-->
 
-
-
-
-
-<!-- jQuery -->
-
 <!--Datatables -->
 <script src="resources/jquery/jquery-3.6.3.js"></script>
 <script src="resources/dataTables/datatables.js"></script>
+<script src="resources/jquery/jquery-ui/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="resources/dataTables/ColReorder-1.6.1/js/dataTables.colReorder.js"></script>
 <script>
 
     let table;
     $(document).ready(function() {
 
         table = $('#example').DataTable({
-            responsive: true
-        })
-        .columns.adjust()
-        .responsive.recalc();
+
+            columns: [
+                { data: 'name',  },
+                { data: 'position' },
+                { data: 'salary' },
+                { data: 'office' },
+                { data : 'start_date'},
+                { data : 'extn' }
+            ],
+            data : [
+                {
+                    "name":       "Tiger Nixon",
+                    "position":   "System Architect",
+                    "salary":     "$3,120",
+                    "start_date": "2011/04/25",
+                    "office":     "Edinburgh",
+                    "extn":       "5421"
+                },
+                {
+                    "name":       "Garrett Winters",
+                    "position":   "Director",
+                    "salary":     "$5,300",
+                    "start_date": "2011/07/25",
+                    "office":     "Edinburgh",
+                    "extn":       "8422"
+                }
+            ],
+            responsive: true,
+            colReorder: true
+        }).columns.adjust()
+          .responsive.recalc();
+
+        $( ".ui-state-default" ).draggable({ revert : true});
     });
 </script>
 
