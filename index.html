@@ -8,108 +8,22 @@
     <title>DataTables </title>
     <meta name="description" content="">
     <meta name="keywords" content="">
-    <link href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" rel=" stylesheet">
-    <!--Replace with your tailwind.css once created-->
-    <!--Regular Datatables CSS-->
     <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet">
-    <!--Responsive Extension Datatables CSS-->
     <link href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.dataTables.min.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
 
     <style>
         /*Overrides for Tailwind CSS */
-
-        /*Form fields*/
-        .dataTables_wrapper select,
-        .dataTables_wrapper .dataTables_filter input {
-            color: #4a5568;
-            /*text-gray-700*/
-            padding-left: 1rem;
-            /*pl-4*/
-            padding-right: 1rem;
-            /*pl-4*/
-            padding-top: .5rem;
-            /*pl-2*/
-            padding-bottom: .5rem;
-            /*pl-2*/
-            line-height: 1.25;
-            /*leading-tight*/
-            border-width: 2px;
-            /*border-2*/
-            border-radius: .25rem;
-            border-color: #edf2f7;
-            /*border-gray-200*/
-            background-color: #edf2f7;
-            /*bg-gray-200*/
+        body {
+            font-family: 'Nanum Gothic', sans-serif !important;
         }
 
-        /*Row Hover*/
-        table.dataTable.hover tbody tr:hover,
-        table.dataTable.display tbody tr:hover {
-            background-color: #ebf4ff;
-            /*bg-indigo-100*/
-        }
-
-        /*Pagination Buttons*/
-        .dataTables_wrapper .dataTables_paginate .paginate_button {
-            font-weight: 700;
-            /*font-bold*/
-            border-radius: .25rem;
-            /*rounded*/
-            border: 1px solid transparent;
-            /*border border-transparent*/
-        }
-
-        /*Pagination Buttons - Current selected */
-        .dataTables_wrapper .dataTables_paginate .paginate_button.current {
-            color: #fff !important;
-            /*text-white*/
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-            /*shadow*/
-            font-weight: 700;
-            /*font-bold*/
-            border-radius: .25rem;
-            /*rounded*/
-            background: #667eea !important;
-            /*bg-indigo-500*/
-            border: 1px solid transparent;
-            /*border border-transparent*/
-        }
-
-        /*Pagination Buttons - Hover */
-        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
-            color: #fff !important;
-            /*text-white*/
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px 0 rgba(0, 0, 0, .06);
-            /*shadow*/
-            font-weight: 700;
-            /*font-bold*/
-            border-radius: .25rem;
-            /*rounded*/
-            background: #667eea !important;
-            /*bg-indigo-500*/
-            border: 1px solid transparent;
-            /*border border-transparent*/
-        }
-
-        /*Add padding to bottom border */
-        table.dataTable.no-footer {
-            border-bottom: 1px solid #e2e8f0;
-            /*border-b-1 border-gray-300*/
-            margin-top: 0.75em;
-            margin-bottom: 0.75em;
-        }
-
-
-
-        /*Change colour of responsive icon*/
-        table.dataTable.dtr-inline.collapsed>tbody>tr>td:first-child:before,
-        table.dataTable.dtr-inline.collapsed>tbody>tr>th:first-child:before {
-            background-color: #667eea !important;
-            /*bg-indigo-500*/
-        }
     </style>
     <link rel="stylesheet" href="resources/jquery/jquery-ui/jquery-ui.css">
     <link rel="stylesheet" href="resources/jquery/jquery-ui/jquery-ui.structure.css">
+    <link rel="stylesheet" href="css/tailwind/tailwind.min.css">
 
 </head>
 
@@ -119,25 +33,16 @@
 <!--Container-->
 <div class="container w-full md:w-4/5 xl:w-3/5  mx-auto px-2">
 
-    <!--Title-->
-    <h1 class="flex items-center font-sans font-bold break-normal text-indigo-500 px-2 py-8 text-xl md:text-2xl">
-        Responsive <a class="underline mx-2" href="https://datatables.net/">DataTables.net</a> Table
-    </h1>
-
     <!--Card-->
     <div id='recipients' class="p-8 mt-6 lg:mt-0 rounded shadow bg-white">
 
-        <ul id="sortable">
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 1</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 2</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 3</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 4</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 5</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 6</li>
-            <li class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>Item 7</li>
-        </ul>
+        <div class="bg-clip-border p-6 bg-violet-600 border-4 border-violet-300 border-dashed">
+            <span class="draggable bg-gray-100 text-gray-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">Dark</span>
+        </div>
 
-        <table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em;">
+        <div class="" style="margin-top: 20px"></div>
+
+        <table id="example" class="stripe hover" style="width:100%; padding-top: 1em;  padding-bottom: 1em; border-collapse: collapse">
         </table>
     </div>
     <!--/Card-->
@@ -152,45 +57,86 @@
 <script src="resources/jquery/jquery-ui/jquery-ui.js"></script>
 <script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
 <script src="resources/dataTables/ColReorder-1.6.1/js/dataTables.colReorder.js"></script>
+<script src="resources/nlib/noel.jslib.js"></script>
+<script src="resources/nlib/noel.pivot.js"></script>
 <script>
 
-    let table;
-    $(document).ready(function() {
+    let _dt, _dtAttr = {};
 
-        table = $('#example').DataTable({
+    let fn_drawTable = (targetId) => {
 
-            columns: [
-                { data: 'name',  },
-                { data: 'position' },
-                { data: 'salary' },
-                { data: 'office' },
-                { data : 'start_date'},
-                { data : 'extn' }
-            ],
-            data : [
-                {
-                    "name":       "Tiger Nixon",
-                    "position":   "System Architect",
-                    "salary":     "$3,120",
-                    "start_date": "2011/04/25",
-                    "office":     "Edinburgh",
-                    "extn":       "5421"
-                },
-                {
-                    "name":       "Garrett Winters",
-                    "position":   "Director",
-                    "salary":     "$5,300",
-                    "start_date": "2011/07/25",
-                    "office":     "Edinburgh",
-                    "extn":       "8422"
-                }
-            ],
+        targetId = targetId ?? 'example';
+
+        _dt?.destroy();
+        $("#"+_dtAttr.selector).empty();
+
+        _dtAttr.selector = targetId;
+        _dt = $('#'+_dtAttr.selector).DataTable({
+            columns: [..._dtAttr.columns],
+            data: $.extend(true, _dtAttr.data),
             responsive: true,
-            colReorder: true
-        }).columns.adjust()
-          .responsive.recalc();
+            colReorder: true,
+            paging : false,
+            searching : false
+        });
 
-        $( ".ui-state-default" ).draggable({ revert : true});
+        _dt.columns.adjust().responsive.recalc();
+    }
+
+    let fn_setDefaultAttr = () => {
+
+        _dtAttr.columns = [
+            { data: 'name', title : 'NAME'},
+            { data: 'position', title : 'POSITION'},
+            { data: 'salary', title : 'SALARY'},
+            { data: 'office', title : 'OFFICE'},
+            { data: 'start_date', title : 'START_DATE'},
+            { data: 'extn', title : 'EXTN'}
+        ];
+        _dtAttr.data = [
+            {
+                "name": "Tiger Nixon",
+                "position": "System Architect",
+                "salary": "$3,120",
+                "start_date": "2011/04/25",
+                "office": "Edinburgh",
+                "extn": "5421"
+            },
+            {
+                "name": "Garrett Winters",
+                "position": "Director",
+                "salary": "$5,300",
+                "start_date": "2011/07/25",
+                "office": "Edinburgh",
+                "extn": "8422"
+            }
+        ]
+    }
+
+    /*
+     * @param {node} el
+     */
+    let fn_addCol = (el) => {
+        _dtAttr.columns.push({name: el.textContent, title: el.textContent, mData : el.textContent, sTitle : el.textContent})
+        // _dtAttr.data.map((m)=> m["test"] = "test")
+    }
+    $(document).ready(function () {
+
+        fn_setDefaultAttr();
+        // fn_drawTable();
+        //
+        // $(_dt.table().header()).droppable({
+        //     accept : ".draggable",
+        //     classes : {
+        //         "ui-droppable-hover": "bg-clip-border p-6 bg-violet-600 border-4 border-violet-300 border-dashed"
+        //     },
+        //     drop: function( event, ui ) {
+        //         console.log(event)
+        //         console.log(ui)
+        //     }
+        // })
+
+        $(".draggable").draggable({revert: true});
     });
 </script>
 
