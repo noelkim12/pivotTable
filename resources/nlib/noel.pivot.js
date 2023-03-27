@@ -38,6 +38,16 @@
 }(function ($, window, document, undefined) {
     'use strict';
     var DataTable = $.fn.dataTable;
+
+    /** Detect free variable `global` from Node.js. */
+    var freeGlobal = typeof global == 'object' && global && global.Object === Object && global;
+
+    /** Detect free variable `self`. */
+    var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+
+    /** Used as a reference to the global object. */
+    var root = freeGlobal || freeSelf || Function('return this')();
+
     var defaultOptions = {
         id : "",
         columns : [],
@@ -53,12 +63,86 @@
         DROP_HOVER_TGT : "ui-droppable-hover",
         DROP_HOVER_CLS : "bg-clip-border p-6 bg-violet-600 border-4 border-violet-300 border-dashed"
     };
-    window.nStorage = { };
+    if ( $N.isEmpty(root.$N.storage) ) root.$N.storage = { };
+
+    /**
+     * ADD COLUMN
+     * @param {object|array} colObj - column object or  column array
+     */
+    function addColumn(colObj) {
+        let columns = $N.isObject(colObj) ? [colObj] : colObj;
+        setColumns.call(this, [...this.options.columns, ...columns]);
+        drawTable.call(this);
+    }
+    /**
+     * SET COLUMNS
+     * @param {array} colArr
+     */
+    function setColumns (colArr) {
+        colArr.forEach((_i) => {
+            Object.keys(_i).forEach((k) => {
+                if ( k.toLowerCase() === 'title' ) _i['sTitle'] = _i[k];
+                if ( k.toLowerCase() === 'data' ) _i['mData'] = _i[k];
+            })
+        })
+        this.options.columns = colArr;
+    }
+    /**
+     * SET DATA
+     * @param dataArr
+     */
+    function setData (dataArr) {
+        this.options.data = dataArr;
+    }
+    /**
+     * DRAW TABLE INTO TARGET
+     */
+    function drawTable () {
+
+        this.options?.module?.destroy();
+        $("#"+this.options.renderTo).empty();
+
+        let tableEl = $N.elCreator({
+            "id" : this.options.id,
+            "tagName": "TABLE",
+            "class": "stripe hover",
+            "style": "width:100%; padding-top: 1em;  padding-bottom: 1em; border-collapse: collapse"
+        });
+
+        $("#"+this.options.renderTo).append(tableEl);
+        this.options.module = $("#"+this.options.id).DataTable(this.options);
+
+        // APPLY DROPPABLE ON PIVOT TABLE HEADER
+        $(this.options?.module.table().header()).droppable({
+            accept : ".draggable",
+            classes : {
+                [`${CONF_STORE.DROP_HOVER_TGT}`] : CONF_STORE.DROP_HOVER_CLS
+            },
+            drop: function( event, ui ) {
+                console.log(event)
+                console.log(ui)
+            }
+        })
+    }
+    /**
+     * enable draggable on selector
+     * @param selector
+     */
+    function  enableDraggable (selector) {
+        $(selector).draggable({revert : true});
+    }
+    /**
+     *
+     * @param {event} _event
+     * @param {}
+     */
+    function onDropOnHeader (_event, ui) {
+
+    }
 
     $N.pivot = {
         options : {},
         /**
-         *
          * @param {object} options
          * @returns {$N.pivot} $N.pivot
          */
@@ -68,7 +152,7 @@
             return current;
         },
         /**
-         * initializing pivot table
+         * INITIALIZING PIVOT TABLE
          * @param {Object} userOptions
          * @requires options.id,options.renderTo
          * @return {$N.pivot} pivot object
@@ -82,76 +166,40 @@
 
             if ( $N.isEmpty(id) || $N.isEmpty(renderTo) ) {
                 console.error(`REQUIRED ATTRIBUTE NOT FOUND :: ${ $N.isEmpty(id) ? 'id' : 'renderTo'}`)
-                return;
+                return null;
             }
-            var pivot = $N.pivot.api($.extend(true, defaultOptions, userOptions));
-            nStorage[pivot.options.id] = pivot;
+            let pivot = $N.pivot.api($.extend(true, defaultOptions, userOptions));
+            root.$N.storage[pivot.options.id] = pivot;
 
-            pivot.setColumns.call(pivot, pivot.options.columns);
+            pivot.setColumns.call(pivot, pivot.options.columns)
             pivot.setData.call(pivot, pivot.options.data);
-            pivot.drawTable();
+            pivot.drawTable.call(pivot);
 
             return pivot;
         },
-        /**
-         * @param {object|array} colObj - column object or  column array
-         * @param {string|object} id - pivotTable ID or pivotTable Object
-         */
-        addColumn : function (colObj, id) {
-            let columns = $N.isObject(colObj) ? [colObj] : colObj;
-            $N.pivot.setColumns([...this.options.columns, ...columns]);
-            $N.pivot.drawTable();
+        addColumn : function (colObj) {
+            return addColumn.call(this, colObj)
         },
         /**
-         * set columns
+         * SET COLUMNS
          * @param {array} colArr
          */
-        setColumns : function (colArr) {
-            colArr.forEach((_i) => {
-                Object.keys(_i).forEach((k) => {
-                    if ( k.toLowerCase() === 'title' ) _i['sTitle'] = _i[k];
-                    if ( k.toLowerCase() === 'data' ) _i['mData'] = _i[k];
-                })
-            })
-            this.options.columns = colArr;
+        setColumns : function(colArr) {
+            setColumns.call(this, colArr)
         },
         /**
-         * set data
+         * SET DATA
          * @param dataArr
          */
-        setData : function (dataArr) {
-            this.options.data = dataArr;
+        setData : function(dataArr) {
+            setData.call(this, dataArr)
         },
         /**
-         * draw table into target
+         * DRAW TABLE INTO TARGET
          */
         drawTable : function () {
-
-            this.options?.module?.destroy();
-            $("#"+this.options.renderTo).empty();
-
-            let tableEl = $N.elCreator({
-                "id" : this.options.id,
-                "tagName": "TABLE",
-                "class": "stripe hover",
-                "style": "width:100%; padding-top: 1em;  padding-bottom: 1em; border-collapse: collapse"
-            });
-
-            $("#"+this.options.renderTo).append(tableEl);
-            this.options.module = $("#"+this.options.id).DataTable(this.options);
-
-            // APPLY DROPPABLE ON PIVOT TABLE HEADER
-            $(this.options?.module.table().header()).droppable({
-                accept : ".draggable",
-                classes : {
-                    [`${CONF_STORE.DROP_HOVER_TGT}`] : CONF_STORE.DROP_HOVER_CLS
-                },
-                drop: function( event, ui ) {
-                    console.log(event)
-                    console.log(ui)
-                }
-            })
-        },
+            drawTable.call(this)
+        } ,
         /**
          * enable draggable on selector
          * @param selector
